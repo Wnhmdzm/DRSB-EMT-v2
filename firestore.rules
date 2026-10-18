@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Live EMT Dashboard Document (Incident state, SITREP, action items, audit trail, user registry)
+    match /emt_dashboard/{docId} {
+      allow read, write: if true;
+    }
+
+    // 2. User Profiles and Registered Responders Collection
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+
+    // 3. Fallback matching
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
